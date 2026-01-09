@@ -1,0 +1,92 @@
+DOCUMENTACIÓN DE ESQUEMA DE BASE DE DATOS - GYM TRACKING APP
+============================================================
+
+1. TABLA: user_profiles
+-----------------------
+Propósito: Almacenar datos físicos estáticos del usuario (como la altura).
+Relación: 1 a 1 con la tabla 'users'.
+
+COLUMNA         | TIPO DE DATO      | DESCRIPCIÓN
+----------------|-------------------|---------------------------------------
+id              | BIGINT (PK)       | Identificador único.
+user_id         | BIGINT (FK)       | Relación con la tabla de autenticación.
+gender          | ENUM              | ['male', 'female', 'other'] (Opcional).
+birth_date      | DATE              | Para cálculo de edad.
+
+
+2. TABLA: body_measurements
+---------------------------
+Propósito: Historial del peso corporal del usuario a lo largo del tiempo.
+
+COLUMNA         | TIPO DE DATO      | DESCRIPCIÓN
+----------------|-------------------|---------------------------------------
+id              | BIGINT (PK)       | Identificador único.
+user_id         | BIGINT (FK)       | Usuario al que pertenece el registro.
+weight_value    | DECIMAL(5, 2)     | Valor numérico del peso (ej: 80.50).
+unit            | ENUM              | ['kg', 'lbs'] (Unidad usada al pesarse).
+height_cm       | INTEGER           | Altura en centímetros (ej: 175).
+measured_at     | DATETIME          | Fecha y hora de la medición.
+notes           | TEXT              | Notas (ej: "En ayunas").
+
+
+3. TABLA: exercises
+-------------------
+Propósito: Catálogo de ejercicios disponibles.
+
+COLUMNA         | TIPO DE DATO      | DESCRIPCIÓN
+----------------|-------------------|---------------------------------------
+id              | BIGINT (PK)       | Identificador único.
+name            | STRING(255)       | Nombre (ej: "Press de Banca").
+muscle_group    | STRING(100)       | Grupo muscular principal.
+user_id         | BIGINT (FK)       | NULL = Ejercicio del sistema (visible para todos).
+                                      ID = Ejercicio personalizado del usuario.
+
+
+4. TABLA: workouts
+------------------
+Propósito: Cabecera de la sesión de entrenamiento (Un día de gimnasio).
+
+COLUMNA         | TIPO DE DATO      | DESCRIPCIÓN
+----------------|-------------------|---------------------------------------
+id              | BIGINT (PK)       | Identificador único.
+user_id         | BIGINT (FK)       | Usuario que entrena.
+name            | STRING(255)       | Nombre opcional (ej: "Día de Pierna").
+started_at      | TIMESTAMP         | Inicio del entreno.
+ended_at        | TIMESTAMP         | Fin del entreno (NULL si sigue activo).
+status          | ENUM              | ['in_progress', 'completed', 'discarded'].
+
+
+5. TABLA: workout_exercises
+---------------------------
+Propósito: Tabla Pivote. Relaciona un Entreno con los Ejercicios realizados.
+Lógica: Permite ordenar los ejercicios dentro de la rutina.
+
+COLUMNA         | TIPO DE DATO      | DESCRIPCIÓN
+----------------|-------------------|---------------------------------------
+id              | BIGINT (PK)       | Identificador único.
+workout_id      | BIGINT (FK)       | Relación con la tabla workouts.
+exercise_id     | BIGINT (FK)       | Relación con la tabla exercises.
+order_index     | INTEGER           | Orden visual (1, 2, 3...).
+notes           | TEXT              | Notas específicas (ej: "Molestia en hombro").
+
+
+6. TABLA: sets
+--------------
+Propósito: Datos atómicos de cada serie.
+Lógica Clave: Maneja conversión Kg/Lbs y tipos especiales (Drop Sets).
+
+COLUMNA              | TIPO DE DATO      | DESCRIPCIÓN
+---------------------|-------------------|---------------------------------------
+id                   | BIGINT (PK)       | Identificador único.
+workout_exercise_id  | BIGINT (FK)       | Relación con el ejercicio de la sesión.
+set_number           | INTEGER           | Número de serie (1, 2, 3... Infinito).
+type                 | ENUM              | ['normal', 'warmup', 'drop_set', 'failure'].
+                                           * 'normal': Serie estándar.
+                                           * 'warmup': Calentamiento (no cuenta para PR).
+                                           * 'drop_set': Indica técnica de Drop Set.
+reps                 | INTEGER           | Número de repeticiones realizadas.
+weight_value         | DECIMAL(8, 2)     | El peso que ingresó el usuario (ej: 100).
+weight_unit          | ENUM              | ['kg', 'lbs']. Unidad seleccionada.
+weight_kg_normalized | DECIMAL(8, 2)     | CAMPO CALCULADO: Conversión automática a KG.
+                                           Se usa para generar todas las estadísticas.
+rpe                  | TINYINT           | (Opcional) Esfuerzo percibido (1-10).
