@@ -17,7 +17,7 @@
 
 
             @if (Auth::user()->getRoleNames()->first() == 'admin')
-                <a href="" 
+                <a href="{{ route('admin.exercises') }}" 
                 class="flex items-center px-4 py-3 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors group">
                 Ejercicios</a>
             @endif
@@ -25,25 +25,25 @@
 
             @if (Auth::user()->getRoleNames()->first() == 'user')
             
-            <a href="" 
+            <a href="{{ route('user.chest') }}" 
                 class="flex items-center px-4 py-3 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors group">
                 Pecho</a>
-            <a href="" 
+            <a href="{{ route('user.biceps') }}" 
                 class="flex items-center px-4 py-3 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors group">
-                Biceps</a>
-            <a href="" 
+                Bíceps</a>
+            <a href="{{ route('user.triceps') }}" 
                 class="flex items-center px-4 py-3 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors group">
-                Triceps</a>
-            <a href="" 
+                Tríceps</a>
+            <a href="{{ route('user.back') }}" 
                 class="flex items-center px-4 py-3 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors group">
                 Dorsal</a>
-            <a href="" 
+            <a href="{{ route('user.arms') }}" 
                 class="flex items-center px-4 py-3 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors group">
                 Brazos</a>
-            <a href="" 
+            <a href="{{ route('user.legs') }}" 
                 class="flex items-center px-4 py-3 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors group">
                 Piernas</a>
-            <a href="" 
+            <a href="{{ route('user.abs') }}" 
                 class="flex items-center px-4 py-3 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors group">
                 Abdomen</a>
             @endif
