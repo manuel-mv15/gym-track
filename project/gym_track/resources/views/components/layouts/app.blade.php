@@ -11,7 +11,16 @@
 </head>
 
 <body class="bg-gray-100 text-gray-900 antialiased dark:bg-gray-900 dark:text-gray-100">
-    {{ $slot }}
+    <div class="min-h-screen flex flex-row">
+        {{-- Main Content --}}
+        <main class="flex-1 p-6">
+            {{ $slot }}
+        </main>
+
+        @auth
+            <x-layouts.navbar />
+        @endauth
+    </div>
 </body>
 
 </html>

@@ -1,23 +1,19 @@
 @if (Auth::check())
 
 <div>
-   
-
-@if (Auth::user()->getRoleNames()->first() == 'admin')
-
-<div>
-    <h1>Admin</h1>
-</div>
-
-@elseif (Auth::user()->getRoleNames()->first() == 'user')
-
-<div>
-    <h1>User</h1>
-</div>
-
-@endif
+    @if (Auth::user()->getRoleNames()->first() == 'admin')
+        {{-- ADMIN DASHBOARD --}}
+        <div class="space-y-6">
+            
+        </div>
 
 
+    @elseif (Auth::user()->getRoleNames()->first() == 'user')
+        {{-- USER DASHBOARD --}}
+        <div class="space-y-6">
+            
+        </div>
+    @endif
 </div>
 @else
 
