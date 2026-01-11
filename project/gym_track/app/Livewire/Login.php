@@ -3,9 +3,15 @@
 namespace App\Livewire;
 
 use Livewire\Component;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
+use Livewire\Attributes\Layout;
 
+#[Layout('components.layouts.app')]
 class Login extends Component
 {
+
+    
     public function render()
     {
         return view('livewire.login');
