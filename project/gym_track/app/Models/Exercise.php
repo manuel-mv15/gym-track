@@ -12,12 +12,17 @@ class Exercise extends Model
 
     protected $fillable = [
         'name',
-        'muscle_group',
+        'muscle_group_id',
         'user_id',
     ];
 
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function muscleGroup()
+    {
+        return $this->belongsTo(MuscleGroup::class);
     }
 }

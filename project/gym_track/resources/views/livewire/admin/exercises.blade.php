@@ -25,9 +25,14 @@
                         @error('name') <span class="text-red-500 text-sm">{{ $message }}</span>@enderror
                     </div>
                     <div class="mb-4">
-                        <label for="muscle_group" class="block text-gray-700 dark:text-gray-200 text-sm font-bold mb-2">Grupo Muscular:</label>
-                        <input type="text" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline dark:bg-gray-700 dark:border-gray-600 dark:text-white" id="muscle_group" placeholder="Ej: Pecho" wire:model="muscle_group">
-                        @error('muscle_group') <span class="text-red-500 text-sm">{{ $message }}</span>@enderror
+                        <label for="muscle_group_id" class="block text-gray-700 dark:text-gray-200 text-sm font-bold mb-2">Grupo Muscular:</label>
+                        <select id="muscle_group_id" wire:model="muscle_group_id" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                            <option value="">Seleccione un grupo muscular</option>
+                            @foreach($muscle_groups as $group)
+                                <option value="{{ $group->id }}">{{ $group->name }}</option>
+                            @endforeach
+                        </select>
+                        @error('muscle_group_id') <span class="text-red-500 text-sm">{{ $message }}</span>@enderror
                     </div>
                 </div>
 
@@ -65,7 +70,7 @@
                         <tr class="hover:bg-gray-50 dark:hover:bg-gray-700 transition duration-150 ease-in-out">
                             <td class="px-4 py-3 text-gray-700 dark:text-gray-300">{{ $exercise->id }}</td>
                             <td class="px-4 py-3 text-gray-700 dark:text-gray-300">{{ $exercise->name }}</td>
-                            <td class="px-4 py-3 text-gray-700 dark:text-gray-300">{{ $exercise->muscle_group }}</td>
+                            <td class="px-4 py-3 text-gray-700 dark:text-gray-300">{{ $exercise->muscleGroup->name ?? 'N/A' }}</td>
                             <td class="px-4 py-3 text-center">
                                 <button wire:click="edit({{ $exercise->id }})" class="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-1 px-3 rounded text-xs mr-1 transition duration-150 ease-in-out">Editar</button>
                                 <button wire:click="delete({{ $exercise->id }})" class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-3 rounded text-xs transition duration-150 ease-in-out" onclick="return confirm('¿Estás seguro de querer eliminar este ejercicio?') || event.stopImmediatePropagation()">Borrar</button>
